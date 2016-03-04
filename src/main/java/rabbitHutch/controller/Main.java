@@ -16,14 +16,6 @@ import rabbitHutch.Exchanges;
 
 public class Main {
 	public static void main(String[] args) throws IOException, TimeoutException {
-		// Parse Args
-		String buildingPattern;
-		if(args.length > 0){
-			buildingPattern = args[0];
-		} else {
-			buildingPattern = "#";
-		}
-		
 		// Setup channel
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
@@ -36,7 +28,7 @@ public class Main {
 		Exchanges.declareSensorData(channel);
 
 		String dataQueue = channel.queueDeclare().getQueue();
-		channel.queueBind(dataQueue, Exchanges.sensorData, buildingPattern);
+		channel.queueBind(dataQueue, Exchanges.sensorData, "");
 
 		// Receiver (react to received temperatures and publish heater on/off commands)
 		channel.basicConsume(dataQueue, F.autoAck, new DefaultConsumer(channel) {

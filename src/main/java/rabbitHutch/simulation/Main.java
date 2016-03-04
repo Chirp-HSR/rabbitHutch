@@ -72,7 +72,7 @@ public class Main {
 
 			System.out.println("simulator> emit " + msg);
 
-			channel.basicPublish(Exchanges.sensorData, roomWithTemp.getKey(), null, msg.getBytes());
+			channel.basicPublish(Exchanges.sensorData, "", null, msg.getBytes());
 
 			try {
 				Thread.sleep(1000);
