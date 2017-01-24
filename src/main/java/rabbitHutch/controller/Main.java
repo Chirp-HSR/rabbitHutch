@@ -27,7 +27,7 @@ public class Main {
 		Exchanges.declareActuatorCmds(channel);
 		Exchanges.declareSensorData(channel);
 
-		String dataQueue = channel.queueDeclare().getQueue();
+		String dataQueue = channel.queueDeclare("DataQueue", false, false, false, null).getQueue();
 		channel.queueBind(dataQueue, Exchanges.sensorData, "");
 
 		// Receiver (react to received temperatures and publish heater on/off commands)
