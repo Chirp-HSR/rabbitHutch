@@ -21,10 +21,10 @@ public class Main {
 		Channel channel = connection.createChannel();
 
 		// Declare topology
-		Exchanges.declareBuildingPlan(channel);
+		Exchanges.declareBuildingState(channel);
 
 		String stateQueue = channel.queueDeclare().getQueue();
-		channel.queueBind(stateQueue, Exchanges.buildingPlan, "");
+		channel.queueBind(stateQueue, Exchanges.buildingState, "");
 
 		// Receiver (just print anything received)
 		channel.basicConsume(stateQueue, F.autoAck, new DefaultConsumer(channel) {
