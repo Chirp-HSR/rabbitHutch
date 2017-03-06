@@ -12,6 +12,7 @@ import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.AMQP.BasicProperties;
 
 import rabbitHutch.Exchanges;
+import rabbitHutch.F;
 
 public class Main {
 	public final static String visWorkQueue = "vis_work"; 
@@ -38,7 +39,7 @@ public class Main {
 		channel.queueBind(visWorkQueue, Exchanges.buildingState, "");
 		
 		channel.basicQos(1);
-		channel.basicConsume(visWorkQueue, false, new DefaultConsumer(channel) {
+		channel.basicConsume(visWorkQueue, F.noAutoAck, new DefaultConsumer(channel) {
 			@Override
 			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
 					throws IOException {
