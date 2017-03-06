@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.rabbitmq.client.AMQP.Exchange.DeclareOk;
 import com.rabbitmq.client.Channel;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Exchanges {
 	public final static String sensorData = "sensor_data";
@@ -17,22 +16,22 @@ public class Exchanges {
 	public final static String buildingPlan = "building_plan";
 	
 	public static DeclareOk declareSensorData(Channel channel) throws IOException {
-		return channel.exchangeDeclare(sensorData, "direct");
+		return channel.exchangeDeclare(sensorData, "topic");
 	}
 	
 	public static DeclareOk declareActuatorCmds(Channel channel) throws IOException {
-		return channel.exchangeDeclare(actuatorCmds, "direct");
+		return channel.exchangeDeclare(actuatorCmds, "fanout");
 	}
 	
 	public static DeclareOk declareBuildingState(Channel channel) throws IOException {
-		return channel.exchangeDeclare(buildingState, TODO());
+		return channel.exchangeDeclare(buildingState, "fanout");
 	}
 	
 	public static DeclareOk declareBuildingPlan(Channel channel) throws IOException {
-		return channel.exchangeDeclare(buildingPlan, TODO());
+		return channel.exchangeDeclare(buildingPlan, "fanout");
 	}
 	
-	public static String TODO(){
-		throw new NotImplementedException();
+	public static String TODO(){ //TODO
+		throw new UnsupportedOperationException();
 	}
 }

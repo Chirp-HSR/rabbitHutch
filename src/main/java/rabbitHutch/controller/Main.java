@@ -16,6 +16,8 @@ import rabbitHutch.Exchanges;
 
 public class Main {
 	public static void main(String[] args) throws IOException, TimeoutException {
+		String routingKey = args.length > 0 ? args[0] : "";
+		System.out.println("Using routing key: " + routingKey);
 		// Setup channel
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
@@ -28,7 +30,7 @@ public class Main {
 		Exchanges.declareSensorData(channel);
 
 		String dataQueue = channel.queueDeclare().getQueue();
-		channel.queueBind(dataQueue, Exchanges.sensorData, "");
+		channel.queueBind(dataQueue, Exchanges.sensorData, routingKey);
 
 		// Receiver (react to received temperatures and publish heater on/off commands)
 		channel.basicConsume(dataQueue, F.autoAck, new DefaultConsumer(channel) {
@@ -41,7 +43,7 @@ public class Main {
 				String room = parts[0];
 				int temp = Integer.parseInt(parts[1]);
 				
-				System.out.println("controller> received " + room + " " + temp);
+				System.out.println("controller B1> received " + room + " " + temp);
 
 				Optional<Boolean> newHeaterState = calcNewHeaterState(temp);
 
